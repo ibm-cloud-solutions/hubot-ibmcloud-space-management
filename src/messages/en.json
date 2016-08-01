@@ -1,0 +1,14 @@
+{
+	"conversation.timed.out": "Our conversation timed out.  You can try again later.",
+	"conversation.try.again.or.exit": "That is not one of the choices. Try again, or type *exit*.",
+	"conversation.try.again.yes.no": "That is not one of the choices. Try *yes* or *no*.",
+	"help.space.set": "Set your active space.",
+	"help.space.show": "Show the current space.",
+	"help.spaces.show": "Show all of the spaces in the organization.",
+	"space.current": "You're using the *%s* space.",
+	"space.not.found": "*%s* isn't a space in the Org.",
+	"space.set.in.progress": "Setting the space to *%s*.",
+	"space.set.success": "*%s* is now your current space.",
+	"space.summary.error": "Error getting summary for space %s: %s",
+    "cognitive.parse.problem.space.set": "I'm having problems understanding the name of your space. To start an app use *space set [name]*"
+}
