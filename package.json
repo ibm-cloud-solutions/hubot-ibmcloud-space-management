@@ -54,7 +54,7 @@
     "index.js"
   ],
   "dependencies": {
-    "cf-client": ">=1.0.0",
+    "cf-client": "latest",
     "hubot-cf-convenience": "latest",
     "hubot-ibmcloud-activity-emitter": "latest",
     "hubot-ibmcloud-auth": "latest",
