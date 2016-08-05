@@ -4,23 +4,24 @@
     "classes": [
         {
             "class": "bluemix.space.get",
+            "description": "Show current Bluemix space",
             "emittarget": "bluemix.space.get",
             "texts": [
                 "What is the current space?",
                 "What is my space?",
                 "Which space I am in?",
-                "Tell me my current space"
+                "Tell me my current Bluemix space"
             ]
         },
         {
             "class": "bluemix.space.set",
+            "description": "Set the current Bluemix space",
             "emittarget": "bluemix.space.set",
             "texts": [
                 "change space",
                 "use space",
                 "swith to space",
-                "I want to swith spaces",
-                "I want to use another space"
+                "use another Bluemix space"
             ],
             "parameters" : [
 			   {
@@ -32,19 +33,21 @@
         },
         {
             "class": "bluemix.space.list",
+            "description": "List Bluemix spaces",
             "emittarget": "bluemix.space.list",
             "texts": [
                 "What are the spaces?",
                 "List all spaces",
-                "tell me my spaces"
+                "tell me my Bluemix spaces"
             ]
         },
         {
             "class": "bluemix.space.help",
+            "description": "Help with Bluemix spaces",
             "emittarget": "bluemix.space.help",
             "texts": [
                 "Can you help me with spaces?",
-                "How do I switch spaces?"
+                "How do I switch Bluemix spaces?"
             ]
         }
     ]
