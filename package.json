@@ -36,6 +36,8 @@
     "hubot": "^2.19.0",
     "hubot-fb": "^3.0.0",
     "hubot-help": "^0.2.0",
+    "hubot-ibmcloud-auth": "latest",
+    "hubot-ibmcloud-nlc": "latest",
     "hubot-shell": "^1.0.2",
     "hubot-slack": "^3.4.2",
     "hubot-test-helper": "^1.4.4",
@@ -57,9 +59,7 @@
     "cf-client": "latest",
     "hubot-cf-convenience": "latest",
     "hubot-ibmcloud-activity-emitter": "latest",
-    "hubot-ibmcloud-auth": "latest",
     "hubot-ibmcloud-cognitive-lib": "latest",
-    "hubot-ibmcloud-nlc": "latest",
     "hubot-ibmcloud-utils": "latest",
     "i18n-2": "*"
   }
