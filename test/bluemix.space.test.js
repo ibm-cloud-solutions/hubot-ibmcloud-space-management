@@ -29,6 +29,43 @@ const i18n = new (require('i18n-2'))({
 // At some point we need to toggle this setting based on some user input.
 i18n.setLocale('en');
 
+describe('Load modules through index', function() {
+
+	let room;
+	let cf;
+
+	before(function() {
+		mockUtils.setupMockery();
+		mockESUtils.setupMockery();
+		// initialize cf, hubot-test-helper doesn't test Middleware
+		cf = require('hubot-cf-convenience');
+		return cf.promise.then();
+	});
+
+	beforeEach(function() {
+		room = helper.createRoom();
+		// Force all emits into a reply.
+		room.robot.on('ibmcloud.formatter', function(event) {
+			if (event.message) {
+				event.response.reply(event.message);
+			}
+			else {
+				event.response.send({attachments: event.attachments});
+			}
+		});
+	});
+
+	afterEach(function() {
+		room.destroy();
+	});
+
+	context('load index`', function() {
+		it('should load without problems', function() {
+			require('../index')(room.robot);
+		});
+	});
+});
+
 // Passing arrow functions to mocha is discouraged: https://mochajs.org/#arrow-functions
 // return promises from mocha tests rather than calling done() - http://tobyho.com/2015/12/16/mocha-with-promises/
 describe('Interacting with Bluemix via Slack', function() {
