@@ -27,6 +27,7 @@ var TAG = path.basename(__filename);
 
 const cf = require('hubot-cf-convenience');
 const activity = require('hubot-ibmcloud-activity-emitter');
+const entities = require('../lib/space.entities');
 
 // --------------------------------------------------------------
 // i18n (internationalization)
@@ -50,6 +51,9 @@ const SPACE = /space\s+(current|show)/i;
 const SET_SPACE = /space\s+(set|use)\s+(.*)/i;
 
 module.exports = function(robot) {
+
+	// Register entity handling functions
+	entities.registerEntityFunctions();
 
 	robot.on('bluemix.space.get', (res) => {
 		robot.logger.debug(`${TAG}: Natural Language match!`);

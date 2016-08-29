@@ -133,4 +133,18 @@ describe('Interacting with Natural Language -', function() {
 			room.robot.emit('bluemix.space.list', res, {});
 		});
 	});
+
+	context('verify entity functions', function() {
+
+		it('should retrieve set of space names', function(done) {
+			const entities = require('../src/lib/space.entities');
+			let res = { message: {text: '', user: {id: 'mimiron'}}, response: room };
+			entities.getSpaceNames(room.robot, res, 'spacename', {}).then(function(spaceNames) {
+				expect(spaceNames.length).to.eql(1);
+				done();
+			}).catch(function(error) {
+				done(error);
+			});
+		});
+	});
 });

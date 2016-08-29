@@ -26,8 +26,10 @@
             "parameters" : [
 			   {
 			       "name": "spacename",
+                   "title": "space name",
 			       "type": "entity",
-			       "prompt": "OK. What is the name of the space you want to use?"
+			       "prompt": "OK. What is the name of the space you want to use?",
+                   "entityfunction": "funcspacename"
 			   }
 	       ]
         },
