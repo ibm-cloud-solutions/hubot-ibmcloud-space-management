@@ -24,6 +24,7 @@
             "error",
             "always"
         ],
+				"no-var": "error",
         "comma-dangle": ["error", "never"],
         "brace-style": ["error", "stroustrup"]
     }
