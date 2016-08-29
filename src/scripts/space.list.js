@@ -69,7 +69,7 @@ module.exports = (robot) => {
 				attachments[0].mrkdwn_in = ['pretext'];
 			}
 
-			var spaceNames = summary.spaces.map((space) => {
+			let spaceNames = summary.spaces.map((space) => {
 				return space.name;
 			});
 			nlcconfig.updateGlobalParameterValues('IBMcloudSpaceManagement_spacename', spaceNames);
