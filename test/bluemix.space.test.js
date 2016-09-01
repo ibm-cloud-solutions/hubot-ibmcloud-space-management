@@ -11,6 +11,8 @@ const helper = new Helper('../src/scripts');
 const expect = require('chai').expect;
 const mockUtils = require('./mock.utils.cf.js');
 const mockESUtils = require('./mock.utils.es.js');
+const co = require('co');
+const Promise = require('bluebird');
 
 // --------------------------------------------------------------
 // i18n (internationalization)
@@ -28,43 +30,6 @@ const i18n = new (require('i18n-2'))({
 });
 // At some point we need to toggle this setting based on some user input.
 i18n.setLocale('en');
-
-describe('Load modules through index', function() {
-
-	let room;
-	let cf;
-
-	before(function() {
-		mockUtils.setupMockery();
-		mockESUtils.setupMockery();
-		// initialize cf, hubot-test-helper doesn't test Middleware
-		cf = require('hubot-cf-convenience');
-		return cf.promise.then();
-	});
-
-	beforeEach(function() {
-		room = helper.createRoom();
-		// Force all emits into a reply.
-		room.robot.on('ibmcloud.formatter', function(event) {
-			if (event.message) {
-				event.response.reply(event.message);
-			}
-			else {
-				event.response.send({attachments: event.attachments});
-			}
-		});
-	});
-
-	afterEach(function() {
-		room.destroy();
-	});
-
-	context('load index`', function() {
-		it('should load without problems', function() {
-			require('../index')(room.robot);
-		});
-	});
-});
 
 // Passing arrow functions to mocha is discouraged: https://mochajs.org/#arrow-functions
 // return promises from mocha tests rather than calling done() - http://tobyho.com/2015/12/16/mocha-with-promises/
@@ -137,22 +102,35 @@ describe('Interacting with Bluemix via Slack', function() {
 	});
 
 	context('user calls `space current`', function() {
-		it('should respond with current space', function() {
-			room.robot.on('ibmcloud.formatter', function(event) {
-				expect(event.attachments.length).to.eql(1);
-				expect(event.attachments[0].title).to.eql('testSpace');
+		beforeEach(function() {
+			return co(function * () {
+				yield room.user.say('mimiron', '@hubot space current');
+				yield Promise.delay(500);
 			});
-			room.user.say('mimiron', '@hubot space current').then();
+		});
+
+		it('should respond with current space', function() {
+			expect(room.messages.length).to.eql(2);
+			expect(room.messages[1][0]).to.eql('hubot');
+			expect(room.messages[1][1]).to.be.a('string');
+			expect(room.messages[1][1]).to.be.eql(`@mimiron ${i18n.__('space.current', 'testSpace')}`);
 		});
 	});
 
 	context('user calls `list my spaces`', function() {
-		it('should respond with the spaces', function() {
-			room.robot.on('ibmcloud.formatter', function(event) {
-				expect(event.attachments.length).to.eql(1);
-				expect(event.attachments[0].title).to.eql('testSpace');
+		beforeEach(function() {
+			return co(function * () {
+				yield room.user.say('mimiron', '@hubot list my spaces');
+				yield Promise.delay(500);
 			});
-			room.user.say('mimiron', '@hubot list my spaces').then();
+		});
+
+		it('should respond with the spaces', function() {
+			expect(room.messages.length).to.eql(2);
+			expect(room.messages[1][0]).to.eql('hubot');
+			expect(room.messages[1][1]).to.be.an('object');
+			expect(room.messages[1][1].attachments.length).to.eql(1);
+			expect(room.messages[1][1].attachments[0].title).to.eql('testSpace');
 		});
 	});
 });

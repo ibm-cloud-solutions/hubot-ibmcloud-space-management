@@ -19,8 +19,8 @@
   */
 'use strict';
 
-var path = require('path');
-var TAG = path.basename(__filename);
+const path = require('path');
+const TAG = path.basename(__filename);
 
 const cf = require('hubot-cf-convenience');
 const palette = require('hubot-ibmcloud-utils').palette;
@@ -69,7 +69,7 @@ module.exports = (robot) => {
 				attachments[0].mrkdwn_in = ['pretext'];
 			}
 
-			var spaceNames = summary.spaces.map((space) => {
+			let spaceNames = summary.spaces.map((space) => {
 				return space.name;
 			});
 			nlcconfig.updateGlobalParameterValues('IBMcloudSpaceManagement_spacename', spaceNames);
