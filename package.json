@@ -44,7 +44,8 @@
     "portend": "^1.0.0"
   },
   "peerDependencies": {
-    "hubot": "^2.19.0"
+    "hubot": "^2.19.0",
+		"hubot-ibmcloud-cognitive-lib": "latest"
   },
   "engines": {
     "node": ">= 4.2.0"
