@@ -11,8 +11,7 @@ const helper = new Helper('../src/scripts');
 const expect = require('chai').expect;
 const mockUtils = require('./mock.utils.cf.js');
 const mockESUtils = require('./mock.utils.es.js');
-const co = require('co');
-const Promise = require('bluebird');
+const portend = require('portend');
 
 // --------------------------------------------------------------
 // i18n (internationalization)
@@ -48,15 +47,6 @@ describe('Interacting with Bluemix via Slack', function() {
 
 	beforeEach(function() {
 		room = helper.createRoom();
-		// Force all emits into a reply.
-		room.robot.on('ibmcloud.formatter', function(event) {
-			if (event.message) {
-				event.response.reply(event.message);
-			}
-			else {
-				event.response.send({attachments: event.attachments});
-			}
-		});
 	});
 
 	afterEach(function() {
@@ -64,73 +54,66 @@ describe('Interacting with Bluemix via Slack', function() {
 	});
 
 	context('user calls `space help`', function() {
-		beforeEach(function() {
-			return room.user.say('mimiron', '@hubot space help');
-		});
-
 		it('should respond with the help', function() {
-			expect(room.messages.length).to.eql(2);
-			expect(room.messages[1][1]).to.be.a('string');
+			room.user.say('mimiron', '@hubot space help');
+
+			return portend.once(room.robot, 'ibmcloud.formatter').then(events => {
+				expect(events[0].message).to.be.a('string');
+				expect(events[0].message).to.eql('\nhubot space current|show - Show the current space.\nhubot space set|use [space] - Set your active space.\nhubot spaces show|list - Show all of the spaces in the organization.\n');
+			});
 		});
 	});
 
 	context('user calls `spaces help`', function() {
-		beforeEach(function() {
-			return room.user.say('mimiron', '@hubot spaces help');
-		});
-
 		it('should respond with the help', function() {
-			expect(room.messages.length).to.eql(2);
-			expect(room.messages[1][1]).to.be.a('string');
+			room.user.say('mimiron', '@hubot spaces help');
+
+			return portend.once(room.robot, 'ibmcloud.formatter').then(events => {
+				expect(events[0].message).to.be.a('string');
+				expect(events[0].message).to.eql('\nhubot space current|show - Show the current space.\nhubot space set|use [space] - Set your active space.\nhubot spaces show|list - Show all of the spaces in the organization.\n');
+			});
 		});
 	});
-	context('user calls `space set`', function() {
-		beforeEach(function() {
-			room.user.say('mimiron', '@hubot space set unknownSpace');
-			return room.user.say('mimiron', '@hubot space set testSpace');
-		});
 
+	context('user calls `space set`', function() {
 		it('should respond with the cannot find the space', function() {
-			expect(room.messages.length).to.eql(6);
-			expect(room.messages[4]).to.eql(['hubot', '@mimiron ' + i18n.__('space.not.found', 'unknownSpace')]);
+			room.user.say('mimiron', '@hubot space set unknownSpace');
+
+			return portend.twice(room.robot, 'ibmcloud.formatter').then(events => {
+				expect(events[0].message).to.eql(i18n.__('space.set.in.progress', 'unknownSpace'));
+				expect(events[1].message).to.eql(i18n.__('space.not.found', 'unknownSpace'));
+			});
 		});
 
 		it('should respond with the space', function() {
-			expect(room.messages.length).to.eql(6);
-			expect(room.messages[5]).to.eql(['hubot', '@mimiron ' + i18n.__('space.set.success', 'testSpace')]);
+			room.user.say('mimiron', '@hubot space set testSpace');
+
+			return portend.twice(room.robot, 'ibmcloud.formatter').then(events => {
+				expect(events[0].message).to.eql(i18n.__('space.set.in.progress', 'testSpace'));
+				expect(events[1].message).to.eql(i18n.__('space.set.success', 'testSpace'));
+			});
 		});
 	});
 
 	context('user calls `space current`', function() {
-		beforeEach(function() {
-			return co(function * () {
-				yield room.user.say('mimiron', '@hubot space current');
-				yield Promise.delay(500);
-			});
-		});
-
 		it('should respond with current space', function() {
-			expect(room.messages.length).to.eql(2);
-			expect(room.messages[1][0]).to.eql('hubot');
-			expect(room.messages[1][1]).to.be.a('string');
-			expect(room.messages[1][1]).to.be.eql(`@mimiron ${i18n.__('space.current', 'testSpace')}`);
+			room.user.say('mimiron', '@hubot space current');
+
+			return portend.once(room.robot, 'ibmcloud.formatter').then(events => {
+				expect(events[0].message).to.be.a('string');
+				expect(events[0].message).to.eql(`${i18n.__('space.current', 'testSpace')}`);
+			});
 		});
 	});
 
 	context('user calls `list my spaces`', function() {
-		beforeEach(function() {
-			return co(function * () {
-				yield room.user.say('mimiron', '@hubot list my spaces');
-				yield Promise.delay(500);
-			});
-		});
-
 		it('should respond with the spaces', function() {
-			expect(room.messages.length).to.eql(2);
-			expect(room.messages[1][0]).to.eql('hubot');
-			expect(room.messages[1][1]).to.be.an('object');
-			expect(room.messages[1][1].attachments.length).to.eql(1);
-			expect(room.messages[1][1].attachments[0].title).to.eql('testSpace');
+			room.user.say('mimiron', '@hubot list my spaces');
+
+			return portend.once(room.robot, 'ibmcloud.formatter').then(event => {
+				expect(event[0].attachments.length).to.eql(1);
+				expect(event[0].attachments[0].title).to.eql('testSpace');
+			});
 		});
 	});
 });

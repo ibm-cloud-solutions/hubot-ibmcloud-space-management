@@ -10,5 +10,5 @@
 	"space.set.in.progress": "Setting the space to *%s*.",
 	"space.set.success": "*%s* is now your current space.",
 	"space.summary.error": "Error getting summary for space %s: %s",
-    "cognitive.parse.problem.space.set": "I'm having problems understanding the name of your space. To start an app use *space set [name]*"
+  "cognitive.parse.problem.space.set": "I'm having problems understanding the name of your space. To start an app use *space set [name]*"
 }
