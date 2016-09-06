@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "hubot": "^2.19.0",
-		"hubot-ibmcloud-cognitive-lib": "latest"
+		"hubot-ibmcloud-cognitive-lib": ">=0.0.41"
   },
   "engines": {
     "node": ">= 4.2.0"
