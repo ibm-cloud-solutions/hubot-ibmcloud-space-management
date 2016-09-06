@@ -43,7 +43,10 @@
   },
   "peerDependencies": {
     "hubot": "^2.19.0",
-		"hubot-ibmcloud-cognitive-lib": ">=0.0.41"
+		"hubot-ibmcloud-cognitive-lib": ">=0.0.41",
+		"hubot-ibmcloud-utils": "0.0.x",
+		"hubot-cf-convenience": "0.0.x",
+		"hubot-ibmcloud-activity-emitter": "0.0.x"
   },
   "engines": {
     "node": ">= 4.2.0"
@@ -52,7 +55,5 @@
     "src",
     "index.js"
   ],
-  "dependencies": {
-    "cf-client": "latest"
-  }
+  "dependencies": {}
 }
