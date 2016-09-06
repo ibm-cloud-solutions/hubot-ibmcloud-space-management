@@ -11,12 +11,7 @@ const helper = new Helper('../src/scripts');
 const expect = require('chai').expect;
 const mockUtils = require('./mock.utils.cf.js');
 const mockESUtils = require('./mock.utils.es.js');
-<<<<<<< HEAD
 const portend = require('portend');
-=======
-const co = require('co');
-const Promise = require('bluebird');
->>>>>>> ea3758766389c392a0e7e0325f86b90282f57f73
 
 // --------------------------------------------------------------
 // i18n (internationalization)
